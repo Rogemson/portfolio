@@ -8,8 +8,8 @@ import Skills from '@/components/Skills'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Your Portfolio',
-  description: 'Your professional portfolio website',
+  title: 'Molina, Rogemson',
+  description: 'Portfolio Website',
 }
 
 export default function RootLayout({
