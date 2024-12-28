@@ -1,11 +1,11 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { Menu, X, Home, User, Briefcase, Code, Mail } from 'lucide-react';
+import { Home, User, Briefcase, Code, Mail } from 'lucide-react';
 import gsap from 'gsap';
 
 export default function Navbar() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [] = useState(false);
   const navRef = useRef<HTMLElement | null>(null);
   const bottomMenuRef = useRef<HTMLDivElement | null>(null);
   const menuItemsRef = useRef<HTMLDivElement | null>(null);
