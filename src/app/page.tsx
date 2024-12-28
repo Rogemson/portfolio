@@ -1,9 +1,10 @@
 'use client'
 import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
-import { Github, Linkedin, Mail, ChevronDown } from 'lucide-react'
+import { ChevronDown } from 'lucide-react'
 import gsap from 'gsap'
 import { ScrollTrigger, TextPlugin } from 'gsap/all';
+import { useMemo } from 'react';
 
 const techStack = [
   { name: 'React', image: '/images/react.png', x: '15%', y: '20%' },
@@ -203,7 +204,7 @@ export default function Home() {
   }, [])
 
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div className="bg-gray-50 min-h-screen" id='home'>
       {/* Hero Section */}
       <section 
         ref={heroRef} 
@@ -305,34 +306,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* Contact Section */}
-      <section id="contact" ref={contactRef} className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8">Get in Touch</h2>
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-            <a
-              href="https://github.com/yourusername"
-              className="contact-item flex items-center text-gray-600 hover:text-gray-900"
-            >
-              <Github className="mr-2" /> GitHub
-            </a>
-            <a
-              href="https://linkedin.com/in/yourusername"
-              className="contact-item flex items-center text-gray-600 hover:text-gray-900"
-            >
-              <Linkedin className="mr-2" /> LinkedIn
-            </a>
-            <a
-              href="mailto:your.email@example.com"
-              className="contact-item flex items-center text-gray-600 hover:text-gray-900"
-            >
-              <Mail className="mr-2" /> Email
-            </a>
-          </div>
-        </div>
-      </section>
     </div>
   );
 }
-import { useMemo } from 'react';
