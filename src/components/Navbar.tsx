@@ -1,118 +1,137 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { Home, User, Briefcase, Code, Mail } from 'lucide-react';
-import gsap from 'gsap';
+import { Menu, X } from 'lucide-react';
 
 export default function Navbar() {
-  const [] = useState(false);
-  const navRef = useRef<HTMLElement | null>(null);
-  const bottomMenuRef = useRef<HTMLDivElement | null>(null);
-  const menuItemsRef = useRef<HTMLDivElement | null>(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+  const navRef = useRef<HTMLDivElement>(null);
 
   const menuItems = [
-    { name: 'Home', icon: Home },
-    { name: 'About', icon: User },
-    { name: 'Projects', icon: Briefcase },
-    { name: 'Skills', icon: Code },
-    { name: 'Contact', icon: Mail },
+    { name: 'Home',  id: 'home' },
+    { name: 'About',  id: 'about' },
+    { name: 'Projects', id: 'projects' },
+    { name: 'Skills',  id: 'skills' },
+    { name: 'Contact', id: 'contact' },
   ];
 
-  // Navbar animation on page load
+  // Set isClient to true once component mounts
   useEffect(() => {
-    if (navRef.current) {
-      gsap.fromTo(
-        navRef.current,
-        { y: -100, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.8, ease: 'power2.out' }
-      );
-    }
+    setIsClient(true);
+  }, []);
 
-    if (bottomMenuRef.current) {
-      gsap.fromTo(
-        bottomMenuRef.current,
-        { y: 100, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.8, ease: 'power2.out', delay: 0.2 }
-      );
-
-      gsap.fromTo(
-        '.menu-item',
-        { y: 20, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          stagger: 0.1,
-          duration: 0.5,
-          ease: 'power2.out',
-          delay: 0.4,
+  // Handle animations only after component mounts and gsap is available
+  useEffect(() => {
+    if (typeof window !== 'undefined' && isClient) {
+      // Dynamically import gsap only on the client side
+      import('gsap').then((gsap) => {
+        if (navRef.current) {
+          gsap.default.fromTo(
+            navRef.current,
+            { y: -100, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.8, ease: 'power2.out' }
+          );
         }
-      );
+      });
     }
-  }, []);
+  }, [isClient]);
 
-  // Handle menu item hover animations
-  useEffect(() => {
-    const menuItems = document.querySelectorAll('.menu-item');
+  const handleNavigation = (id: string): void => {
+    // Close mobile menu if open
+    setIsMobileMenuOpen(false);
     
-    menuItems.forEach((item) => {
-      const itemElement = item as HTMLElement;
+    // Get the target section
+    const element = document.getElementById(id);
+    if (element) {
+      // Get the navbar height
+      const navHeight = navRef.current?.offsetHeight || 0;
+      
+      // Calculate scroll position with offset for the navbar
+      const offsetPosition = element.offsetTop - navHeight;
 
-      itemElement.addEventListener('mouseenter', () => {
-        gsap.to(itemElement, {
-          y: -5,
-          scale: 1.1,
-          duration: 0.3,
-          ease: 'power2.out',
-        });
+      // Smooth scroll to the section
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
       });
+    }
+  };
 
-      itemElement.addEventListener('mouseleave', () => {
-        gsap.to(itemElement, {
-          y: 0,
-          scale: 1,
-          duration: 0.3,
-          ease: 'power2.in',
-        });
-      });
-    });
-  }, []);
+  // Don't render animations until client-side
+  const navClassName = `fixed top-0 left-0 right-0 bg-white shadow-md z-50 w-screen ${
+    !isClient ? 'opacity-0' : ''
+  }`;
 
   return (
-    <>
+    <div className="relative">
       {/* Main Navbar */}
-      <nav ref={navRef} className="bg-white shadow-sm fixed w-full top-0 z-50">
+      <nav ref={navRef} className={navClassName}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-center h-16">
-            <div className="flex items-center">
-              <span className="text-2xl font-bold text-gray-800">Jemsonnn</span>
+          <div className="flex justify-between items-center h-16">
+            {/* Logo */}
+            <div className="flex-shrink-0">
+              <button 
+                onClick={() => handleNavigation('home')}
+                className="text-2xl font-bold text-gray-900 hover:text-gray-700 transition-colors"
+              >
+                Jemsonnn
+              </button>
+            </div>
+
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-center space-x-8">
+              {menuItems.map((item) => (
+                <button
+                  key={item.name}
+                  onClick={() => handleNavigation(item.id)}
+                  className="flex items-center space-x-2 text-gray-600 hover:text-gray-900 transition-colors"
+                >
+                  <span>{item.name}</span>
+                </button>
+              ))}
+            </div>
+
+            {/* Mobile Menu Button */}
+            <div className="md:hidden">
+              <button
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-500"
+              >
+                {isMobileMenuOpen ? (
+                  <X className="w-6 h-6" />
+                ) : (
+                  <Menu className="w-6 h-6" />
+                )}
+              </button>
             </div>
           </div>
         </div>
       </nav>
 
-      {/* Bottom Menu Container */}
-      <div 
-        ref={bottomMenuRef}
-        className="fixed bottom-6 left-0 right-0 z-50 flex justify-center px-4"
+      {/* Mobile Menu */}
+      <div
+        className={`fixed inset-0 z-40 transform ${
+          isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
+        } transition-transform duration-300 ease-in-out md:hidden`}
       >
-        <div className="bg-white rounded-full shadow-lg px-6 py-3">
-          <div ref={menuItemsRef} className="flex items-center space-x-8">
-            {menuItems.map((item) => (
-              <a
-                key={item.name}
-                href={`#${item.name.toLowerCase()}`}
-                className="menu-item flex flex-col items-center text-gray-600 hover:text-gray-900 transition-colors"
-              >
-                <item.icon className="w-5 h-5 mb-1" />
-                <span className="text-xs font-medium">{item.name}</span>
-              </a>
-            ))}
-          </div>
+        <div className="relative bg-white h-full w-64 shadow-xl pt-20 px-4">
+          {menuItems.map((item) => (
+            <button
+              key={item.name}
+              onClick={() => handleNavigation(item.id)}
+              className="flex items-center space-x-2 w-full p-4 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors"
+            >
+              <span>{item.name}</span>
+            </button>
+          ))}
         </div>
+        {/* Overlay */}
+        <div
+          className="absolute inset-0 bg-black bg-opacity-50 -z-10"
+          onClick={() => setIsMobileMenuOpen(false)}
+        ></div>
       </div>
-
-      {/* Mobile-friendly touch area */}
-      <div className="h-24 w-full fixed bottom-0 pointer-events-none z-40" />
-    </>
+    </div>
   );
 }

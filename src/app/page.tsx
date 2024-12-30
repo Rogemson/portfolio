@@ -96,13 +96,6 @@ export default function Home() {
       y: 20,
       opacity: 0
     }, "-=0.5")
-    .from(".tech-icon", {
-      duration: 0.5,
-      scale: 0,
-      opacity: 0,
-      stagger: 0.1,
-      ease: "back.out(1.7)"
-    }, "-=0.3")
 
     // Parallax effect
     const parallaxAnimation = gsap.to(".hero-background", {
@@ -176,8 +169,6 @@ export default function Home() {
     }
   }, [isMenuOpen])
 
-  const contactRef = useRef(null)
-
   useEffect(() => {
     // Previous animations remain the same...
     gsap.from(heroRef.current, {
@@ -186,20 +177,6 @@ export default function Home() {
       opacity: 0,
       ease: "power3.out",
       delay: 0.5 // Delay hero animation until after navbar
-    })
-
-    // Contact section animation
-    gsap.from(".contact-item", {
-      scrollTrigger: {
-        trigger: contactRef.current,
-        start: "top center+=100",
-        toggleActions: "play none none reverse"
-      },
-      duration: 0.8,
-      x: -50,
-      opacity: 0,
-      stagger: 0.2,
-      ease: "power3.out"
     })
   }, [])
 

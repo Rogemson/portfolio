@@ -1,100 +1,152 @@
-import React from 'react';
-import { Mail, Github, Linkedin, ArrowRight } from 'lucide-react';
+'use client'
+
+import React, { useEffect, useRef } from 'react';
+import { Mail, Github, Linkedin, ArrowRight, Award, Code, Coffee } from 'lucide-react';
 
 const About = () => {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const bentoRefs = useRef<HTMLDivElement[]>([]);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (section) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('fade-in');
+              entry.target.classList.remove('fade-out');
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+
+      bentoRefs.current.forEach((ref) => {
+        if (ref) observer.observe(ref);
+      });
+
+      return () => observer.disconnect();
+    }
+  }, []);
+
+  const addToRefs = (el: HTMLDivElement) => {
+    if (el && !bentoRefs.current.includes(el)) {
+      bentoRefs.current.push(el);
+    }
+  };
+
   return (
-    <section id="about" className="min-h-screen flex items-center justify-center bg-white py-24">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Grid Container */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          {/* Left Column - Image */}
-          <div className="order-2 lg:order-1">
-            <div className="relative">
-              {/* Decorative Background */}
-              <div className="absolute -top-4 -left-4 w-full h-full bg-gray-100 rounded-lg"></div>
-              {/* Main Image Container */}
-              <div className="relative aspect-[4/5] w-full bg-gray-200 rounded-lg overflow-hidden">
+    <section id="about" className="min-h-screen bg-neutral-100 py-24 px-4 sm:px-6 lg:px-8" ref={sectionRef}>
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-12 gap-4 md:gap-6">
+          <div
+            ref={addToRefs}
+            className="col-span-12 md:col-span-8 bg-white rounded-3xl p-8 shadow-sm hover:shadow-md transition-all duration-300 fade-out"
+          >
+            <div className="flex flex-col md:flex-row gap-8 h-full">
+              <div className="relative w-48 h-48 md:w-56 md:h-56 flex-shrink-0 mx-auto md:mx-0">
+                <div className="absolute inset-0 bg-neutral-900/5 rounded-2xl transform transition-transform group-hover:rotate-6" />
                 <img
-                  src="/api/placeholder/600/750"
+                  src="https://placehold.co/600x400"
                   alt="Profile"
-                  className="w-full h-full object-cover"
+                  className="relative rounded-2xl w-full h-full object-cover"
                 />
               </div>
-              {/* Experience Badge */}
-              <div className="absolute -right-4 bottom-4 bg-gray-900 text-white py-3 px-6 rounded-lg shadow-xl">
-                <p className="text-sm font-medium">4+ Years Experience</p>
+              <div className="flex-1 flex flex-col justify-center text-center md:text-left">
+                <h1 className="text-4xl font-bold text-neutral-900 mb-4">Frontend Developer</h1>
+                <p className="text-neutral-600 text-lg leading-relaxed mb-6">
+                  Passionate about creating intuitive and performant web applications with modern technologies.
+                </p>
+                <div>
+                  <a
+                    href="#contact"
+                    className="group inline-flex items-center space-x-2 bg-neutral-900 text-white px-6 py-3 rounded-xl hover:bg-neutral-800 transition-all duration-300"
+                  >
+                    <span>Let&apos;s collaborate</span>
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </a>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Right Column - Content */}
-          <div className="order-1 lg:order-2 space-y-8">
-            {/* Section Title */}
-            <div>
-              <h2 className="text-sm font-semibold text-gray-500 tracking-wider uppercase">About Me</h2>
-              <h3 className="mt-2 text-3xl sm:text-4xl font-bold text-gray-900 leading-tight">
-                Crafting Digital Experiences Through Code
-              </h3>
+          {/* Experience Card - Aligned with Profile Card */}
+          <div 
+            ref={addToRefs}
+            className="col-span-12 md:col-span-4 bg-gradient-to-br from-neutral-900 to-neutral-800 text-white rounded-3xl shadow-sm hover:translate-y-[-4px] transition-all duration-300 flex flex-col"
+          >
+            <div className="p-8 flex flex-col h-full justify-between">
+              <Award className="w-8 h-8 text-neutral-300" />
+              <div className="mt-auto">
+                <h3 className="text-3xl font-bold mb-3">4+ Years</h3>
+                <p className="text-neutral-300 text-lg">Professional experience in web development</p>
+              </div>
             </div>
+          </div>
 
-            {/* Main Content */}
-            <div className="space-y-6">
-              <p className="text-gray-600 text-lg leading-relaxed">
-                I&apos;m a frontend developer passionate about creating intuitive and performant web applications. 
-                With expertise in modern JavaScript frameworks and UI/UX principles, I transform ideas into 
-                seamless digital experiences.
-              </p>
-
-              {/* Key Skills */}
-              <div className="space-y-4">
-                <h4 className="text-gray-900 font-semibold">Core Technologies</h4>
-                <div className="grid grid-cols-2 gap-4">
-                  {[
-                    'React/Next.js', 
-                    'TypeScript',
-                    'Tailwind CSS',
-                    'Node.js'
-                  ].map((skill) => (
-                    <div key={skill} className="flex items-center space-x-2">
-                      <div className="w-1.5 h-1.5 bg-gray-900 rounded-full" />
-                      <span className="text-gray-600">{skill}</span>
-                    </div>
-                  ))}
+          {/* Technologies Card */}
+          <div 
+            ref={addToRefs}
+            className="col-span-12 md:col-span-5 bg-white rounded-3xl p-8 shadow-sm hover:shadow-md transition-all duration-300"
+          >
+            <Code className="w-8 h-8 mb-6 text-neutral-900" />
+            <h3 className="text-2xl font-bold mb-6">Core Technologies</h3>
+            <div className="grid grid-cols-2 gap-y-4">
+              {['React/Next.js', 'TypeScript', 'Tailwind CSS', 'Node.js'].map((skill) => (
+                <div key={skill} className="flex items-center space-x-3">
+                  <div className="w-2 h-2 bg-neutral-900 rounded-full" />
+                  <span className="text-neutral-600">{skill}</span>
                 </div>
-              </div>
+              ))}
+            </div>
+          </div>
 
-              {/* CTA Section */}
-              <div className="pt-6">
-                <a 
-                  href="#contact"
-                  className="inline-flex items-center space-x-2 bg-gray-900 text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition-colors"
-                >
-                  <span>Let&apos;s work together</span>
-                  <ArrowRight className="w-4 h-4" />
-                </a>
+          {/* Projects Stats Card */}
+          <div 
+            ref={addToRefs}
+            className="col-span-12 md:col-span-4 bg-gradient-to-br from-neutral-800 via-neutral-900 to-neutral-800 text-white rounded-3xl p-8 hover:translate-y-[-4px] transition-all duration-300"
+          >
+            <Coffee className="w-8 h-8 mb-6 text-neutral-300" />
+            <div className="grid grid-cols-2 gap-6">
+              <div>
+                <h4 className="text-3xl font-bold mb-1">50+</h4>
+                <p className="text-neutral-300">Projects</p>
+              </div>
+              <div>
+                <h4 className="text-3xl font-bold mb-1">30k+</h4>
+                <p className="text-neutral-300">Code lines</p>
               </div>
             </div>
+          </div>
 
-            {/* Social Links */}
-            <div className="pt-8 border-t border-gray-200">
-              <div className="flex items-center space-x-6">
-                {[
-                  { Icon: Github, href: 'https://github.com', label: 'GitHub' },
-                  { Icon: Linkedin, href: 'https://linkedin.com', label: 'LinkedIn' },
-                  { Icon: Mail, href: 'mailto:your@email.com', label: 'Email' }
-                ].map(({ Icon, href, label }) => (
-                  <a
-                    key={label}
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group flex items-center space-x-2 text-gray-600 hover:text-gray-900 transition-colors"
-                  >
-                    <Icon className="w-5 h-5" />
-                    <span className="text-sm font-medium">{label}</span>
-                  </a>
-                ))}
-              </div>
+          {/* Social Links Card */}
+          <div 
+            ref={addToRefs}
+            className="col-span-12 md:col-span-3 bg-white rounded-3xl p-8 shadow-sm hover:shadow-md transition-all duration-300"
+          >
+            <div className="grid grid-cols-1 sm:grid-cols-1 gap-4">
+              {[
+                { Icon: Github, href: 'https://github.com', label: 'GitHub', desc: 'View projects' },
+                { Icon: Linkedin, href: 'https://linkedin.com', label: 'LinkedIn', desc: 'Connect' },
+                { Icon: Mail, href: 'mailto:your@email.com', label: 'Email', desc: 'Contact' }
+              ].map(({ Icon, href, label, desc }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center space-x-3 p-3 rounded-xl hover:bg-neutral-50 transition-all duration-300 group"
+                >
+                  <div className="p-2 bg-neutral-900 rounded-xl text-white group-hover:scale-110 transition-transform duration-300">
+                    <Icon className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-neutral-900">{label}</h4>
+                    <p className="text-sm text-neutral-600">{desc}</p>
+                  </div>
+                </a>
+              ))}
             </div>
           </div>
         </div>

@@ -6,6 +6,7 @@ import { Users, BarChart3, Clock, Award, ArrowRight } from 'lucide-react';
 const ProjectsSection = () => {
   const [activeCategory, setActiveCategory] = useState('all');
 
+  // Project data remains the same
   const projects = [
     {
       title: "Enterprise E-commerce Platform",
@@ -100,20 +101,26 @@ const ProjectsSection = () => {
           </p>
         </div>
 
-        <div className="flex justify-center gap-4 mb-16">
-          {categories.map((category) => (
-            <button
-              key={category.id}
-              onClick={() => setActiveCategory(category.id)}
-              className={`px-6 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
-                activeCategory === category.id
-                  ? 'bg-gray-900 text-gray-50 shadow-md'
-                  : 'bg-white text-gray-600 hover:bg-gray-100 hover:text-gray-900'
-              }`}
-            >
-              {category.label}
-            </button>
-          ))}
+        {/* Updated responsive categories */}
+        <div className="mb-16 px-4 sm:px-0">
+          <div className="flex flex-wrap justify-center gap-2 sm:gap-4">
+            {categories.map((category) => (
+              <button
+                key={category.id}
+                onClick={() => setActiveCategory(category.id)}
+                className={`px-4 sm:px-6 py-2 sm:py-2.5 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap
+                  ${
+                    activeCategory === category.id
+                      ? 'bg-gray-900 text-gray-50 shadow-md'
+                      : 'bg-white text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                  }
+                  flex-grow sm:flex-grow-0 basis-[calc(50%-0.5rem)] sm:basis-auto
+                `}
+              >
+                {category.label}
+              </button>
+            ))}
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -126,7 +133,7 @@ const ProjectsSection = () => {
               <div className="grid grid-cols-1 lg:grid-cols-2">
                 <div className="relative h-64 lg:h-full">
                   <img
-                    src={project.image}
+                    src="/api/placeholder/600/400"
                     alt={project.title}
                     className="w-full h-full object-cover"
                   />
