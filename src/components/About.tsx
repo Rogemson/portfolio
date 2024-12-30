@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useEffect, useRef } from 'react';
+import Image from 'next/image';
 import { Mail, Github, Linkedin, ArrowRight, Award, Code, Coffee } from 'lucide-react';
 
 const About = () => {
@@ -37,7 +38,7 @@ const About = () => {
   };
 
   return (
-    <section id="about" className="min-h-screen bg-neutral-100 py-24 px-4 sm:px-6 lg:px-8" ref={sectionRef}>
+    <section id="about" className="min-h-auto bg-neutral-100 py-24 px-4 sm:px-6 lg:px-8" ref={sectionRef}>
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-12 gap-4 md:gap-6">
           <div
@@ -47,10 +48,12 @@ const About = () => {
             <div className="flex flex-col md:flex-row gap-8 h-full">
               <div className="relative w-48 h-48 md:w-56 md:h-56 flex-shrink-0 mx-auto md:mx-0">
                 <div className="absolute inset-0 bg-neutral-900/5 rounded-2xl transform transition-transform group-hover:rotate-6" />
-                <img
+                <Image
                   src="https://placehold.co/600x400"
                   alt="Profile"
                   className="relative rounded-2xl w-full h-full object-cover"
+                  layout="fill"
+                  objectFit="cover"
                 />
               </div>
               <div className="flex-1 flex flex-col justify-center text-center md:text-left">
