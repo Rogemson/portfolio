@@ -19,7 +19,7 @@ const SkillsSection = () => {
       title: "Frontend Development",
       description: "Specialized in building responsive, performant web applications with modern frameworks",
       skills: ["React", "Next.js", "TypeScript"],
-      experience: "5+ years",
+      experience: "2+ years",
       keyProjects: ["E-commerce Platform", "SaaS Dashboard"],
       highlight: "Reduced load times by 60% for major e-commerce client"
     },
@@ -27,8 +27,8 @@ const SkillsSection = () => {
       icon: Server,
       title: "Backend Development",
       description: "Building scalable server architectures and RESTful APIs",
-      skills: ["Node.js", "Python", "Java"],
-      experience: "4+ years",
+      skills: ["Node.js", "Python"],
+      experience: "2+ years",
       keyProjects: ["Payment Processing System", "API Gateway"],
       highlight: "Handled 1M+ daily requests for financial services client"
     },
@@ -36,8 +36,8 @@ const SkillsSection = () => {
       icon: Database,
       title: "Database Architecture",
       description: "Designing efficient database schemas and optimizing queries",
-      skills: ["MongoDB", "PostgreSQL", "Redis"],
-      experience: "4+ years",
+      skills: ["MongoDB", "PostgreSQL", "MySQL"],
+      experience: "2+ months",
       keyProjects: ["Real-time Analytics Platform"],
       highlight: "Improved query performance by 75%"
     },
@@ -46,7 +46,7 @@ const SkillsSection = () => {
       title: "Cloud & DevOps",
       description: "Cloud infrastructure and CI/CD pipeline implementation",
       skills: ["AWS", "Docker", "Git"],
-      experience: "3+ years",
+      experience: "0+ years",
       keyProjects: ["Cloud Migration Project"],
       highlight: "Reduced deployment time by 80%"
     }
@@ -93,10 +93,10 @@ const SkillsSection = () => {
         {/* Key Metrics */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
           {[
-            { icon: Trophy, label: "Projects Delivered", value: "50+" },
-            { icon: Clock, label: "Years Experience", value: "5+" },
-            { icon: Sparkles, label: "Success Rate", value: "98%" },
-            { icon: Gauge, label: "Client Satisfaction", value: "4.9/5" }
+            { icon: Trophy, label: "Projects Delivered", value: "3+" },
+            { icon: Clock, label: "Years Experience", value: "1+" },
+            { icon: Sparkles, label: "Success Rate", value: "90%" },
+            { icon: Gauge, label: "Client Satisfaction", value: "4.2/5" }
           ].map((metric, index) => (
             <div key={index} className="bento-box bg-white rounded-xl shadow-md p-6 text-center">
               <metric.icon className="w-8 h-8 mx-auto mb-3 text-gray-900" />

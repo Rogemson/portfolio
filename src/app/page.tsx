@@ -19,7 +19,7 @@ const techStack = [
 
 export default function Home() {
   const [isMenuOpen] = useState(false)
-  const typingTexts = useMemo(() => ["Web Applications", "REST APIs", "Dynamic UIs", "Database Design"], [])
+  const typingTexts = useMemo(() => ["Web Applications", "REST APIs", "Dynamic UIs", "UI/UX Design"], [])
   const [currentTextIndex, setCurrentTextIndex] = useState(0)
   
   const heroRef = useRef(null)

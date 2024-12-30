@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { Users, BarChart3, Clock, Award, ArrowRight } from 'lucide-react';
 
 const ProjectsSection = () => {
@@ -132,10 +133,11 @@ const ProjectsSection = () => {
             >
               <div className="grid grid-cols-1 lg:grid-cols-2">
                 <div className="relative h-64 lg:h-full">
-                  <img
+                  <Image
                     src="/api/placeholder/600/400"
                     alt={project.title}
-                    className="w-full h-full object-cover"
+                    layout="fill"
+                    objectFit="cover"
                   />
                   {project.featured && (
                     <div className="absolute top-4 right-4 bg-gray-900 text-gray-50 px-4 py-1 rounded-full text-sm font-medium">
