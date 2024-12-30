@@ -88,26 +88,26 @@ const ContactAndFooter = () => {
             <div className="space-y-4 mb-8">
               <div className="flex items-center justify-center space-x-3 text-gray-600 hover:text-gray-900 transition-colors cursor-pointer">
                 <MapPin className="w-5 h-5" />
-                <span>123 Business Avenue, City, Country</span>
+                <span>Pagbilao, Quezon, Philippines</span>
               </div>
               <div className="flex items-center justify-center space-x-3 text-gray-600 hover:text-gray-900 transition-colors cursor-pointer">
                 <Phone className="w-5 h-5" />
-                <span>+1 (555) 123-4567</span>
+                <span>+(63) 938-1660-585</span>
               </div>
               <div className="flex items-center justify-center space-x-3 text-gray-600 hover:text-gray-900 transition-colors cursor-pointer">
                 <Mail className="w-5 h-5" />
-                <span>hello@example.com</span>
+                <span>jemson.personal@gmail.com</span>
               </div>
             </div>
             
             <div className="flex justify-center space-x-4" ref={socialsRef}>
-              <a href="https://github.com" className="p-3 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors">
+              <a href="https://github.com/Rogemson" className="p-3 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors">
                 <Github className="w-6 h-6 text-gray-700" />
               </a>
               <a href="https://linkedin.com" className="p-3 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors">
                 <Linkedin className="w-6 h-6 text-gray-700" />
               </a>
-              <a href="mailto:hello@example.com" className="p-3 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors">
+              <a href="mailto:jemson.personal@gmail.com" className="p-3 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors">
                 <Mail className="w-6 h-6 text-gray-700" />
               </a>
             </div>

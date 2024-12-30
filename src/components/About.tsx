@@ -54,9 +54,9 @@ const About = () => {
                 />
               </div>
               <div className="flex-1 flex flex-col justify-center text-center md:text-left">
-                <h1 className="text-4xl font-bold text-neutral-900 mb-4">Frontend Developer</h1>
+                <h1 className="text-4xl font-bold text-neutral-900 mb-4">Rogemson Molina</h1>
                 <p className="text-neutral-600 text-lg leading-relaxed mb-6">
-                  Passionate about creating intuitive and performant web applications with modern technologies.
+                Driven to design and develop high-performance, user-centric web applications using cutting-edge technologies.
                 </p>
                 <div>
                   <a
@@ -79,8 +79,8 @@ const About = () => {
             <div className="p-8 flex flex-col h-full justify-between">
               <Award className="w-8 h-8 text-neutral-300" />
               <div className="mt-auto">
-                <h3 className="text-3xl font-bold mb-3">4+ Years</h3>
-                <p className="text-neutral-300 text-lg">Professional experience in web development</p>
+                <h3 className="text-3xl font-bold mb-3">1+ Years</h3>
+                <p className="text-neutral-300 text-lg">Proven experience in web development</p>
               </div>
             </div>
           </div>
@@ -93,7 +93,7 @@ const About = () => {
             <Code className="w-8 h-8 mb-6 text-neutral-900" />
             <h3 className="text-2xl font-bold mb-6">Core Technologies</h3>
             <div className="grid grid-cols-2 gap-y-4">
-              {['React/Next.js', 'TypeScript', 'Tailwind CSS', 'Node.js'].map((skill) => (
+              {['React/Next.js', 'Python', 'Tailwind CSS', 'Django'].map((skill) => (
                 <div key={skill} className="flex items-center space-x-3">
                   <div className="w-2 h-2 bg-neutral-900 rounded-full" />
                   <span className="text-neutral-600">{skill}</span>
@@ -110,11 +110,11 @@ const About = () => {
             <Coffee className="w-8 h-8 mb-6 text-neutral-300" />
             <div className="grid grid-cols-2 gap-6">
               <div>
-                <h4 className="text-3xl font-bold mb-1">50+</h4>
+                <h4 className="text-3xl font-bold mb-1">3+</h4>
                 <p className="text-neutral-300">Projects</p>
               </div>
               <div>
-                <h4 className="text-3xl font-bold mb-1">30k+</h4>
+                <h4 className="text-3xl font-bold mb-1">10k+</h4>
                 <p className="text-neutral-300">Code lines</p>
               </div>
             </div>
