@@ -5,10 +5,6 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Code2, Server, Database, Cloud, Sparkles, Gauge, Trophy, Clock } from 'lucide-react';
 
-if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger);
-}
-
 const SkillsSection = () => {
   const skillsRef = useRef<HTMLElement>(null);
   const [activeTab] = useState('expertise');
@@ -53,6 +49,9 @@ const SkillsSection = () => {
   ];
 
   useEffect(() => {
+    if (typeof window !== 'undefined') {
+      gsap.registerPlugin(ScrollTrigger);
+    }
     if (!skillsRef.current) return;
 
     const ctx = gsap.context(() => {

@@ -28,74 +28,105 @@ export default function Home() {
   const summaryRef = useRef(null)
   const ctaRef = useRef(null)
   const typingRef = useRef(null)
-  const typingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const typingAnimationRef = useRef<gsap.core.Tween | null>(null)
+  const typingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const typingAnimationRef = useRef<gsap.core.Tween | null>(null);
 
-  // Register ScrollTrigger plugin
-  if (typeof window !== 'undefined') {
-    gsap.registerPlugin(ScrollTrigger, TextPlugin)
-  }
-
-  // Initial animations - runs only once
   useEffect(() => {
-    const tl = gsap.timeline({ defaults: { ease: "power3.out" } })
-    const floatingElements = document.querySelectorAll('.floating-tech')
-    
-    // Create random floating animation for each tech item
-    floatingElements.forEach((element) => {
-      const randomDuration = gsap.utils.random(3, 5)
-      const randomDelay = gsap.utils.random(0, 2)
-      
-      // Create floating animation
+    if (typeof window !== 'undefined') {
+      gsap.registerPlugin(ScrollTrigger, TextPlugin)
+    }
+
+    // Get all tech stack elements with proper typing
+    const techElements = gsap.utils.toArray<HTMLDivElement>('.floating-tech')
+
+    // Initial floating animation
+    techElements.forEach((element) => {
       gsap.to(element, {
         y: "random(-20, 20)",
-        x: "random(-20, 20)",
-        rotation: "random(-15, 15)",
-        duration: randomDuration,
+        duration: gsap.utils.random(2, 3),
         repeat: -1,
         yoyo: true,
         ease: "sine.inOut",
-        delay: randomDelay
       })
 
-      // Create hover effect
-      element.addEventListener('mouseenter', () => {
+      // Add hover animations with proper typing
+      const handleMouseEnter = () => {
         gsap.to(element, {
           scale: 1.2,
           duration: 0.3,
           ease: "back.out(1.7)"
         })
-      })
+      }
 
-      element.addEventListener('mouseleave', () => {
+      const handleMouseLeave = () => {
         gsap.to(element, {
           scale: 1,
           duration: 0.3,
           ease: "back.out(1.7)"
         })
-      })
+      }
+
+      // Add event listeners
+      element.addEventListener('mouseenter', handleMouseEnter)
+      element.addEventListener('mouseleave', handleMouseLeave)
     })
 
-    tl.from(headlineRef.current, {
-      duration: 1,
-      y: 50,
-      opacity: 0
+    // Exit animation timeline
+    const exitTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: heroRef.current,
+        start: "top top",
+        end: "+=500",
+        scrub: 1,
+      }
     })
-    .from(nameRef.current, {
-      duration: 1,
-      y: 30,
-      opacity: 0
-    }, "-=0.5")
-    .from(summaryRef.current, {
-      duration: 1,
-      y: 30,
-      opacity: 0
-    }, "-=0.7")
-    .from(ctaRef.current, {
-      duration: 0.8,
-      y: 20,
-      opacity: 0
-    }, "-=0.5")
+
+    // Add exit animations for each tech element
+    techElements.forEach((element, i) => {
+      const direction = i % 2 === 0 ? -100 : 100
+      exitTl.to(element, {
+        x: `${direction}vw`,
+        y: gsap.utils.random(-100, 100),
+        opacity: 0,
+        rotate: gsap.utils.random(-90, 90),
+        duration: 1,
+        ease: "power1.in"
+      }, 0)
+    })
+
+    return () => {
+      // Clean up event listeners with proper typing
+      techElements.forEach((element) => {
+        element.removeEventListener('mouseenter', () => {})
+        element.removeEventListener('mouseleave', () => {})
+      })
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill())
+    }
+  }, [])
+
+    useEffect(() => {
+      const tl = gsap.timeline({ defaults: { ease: "power3.out" } })
+  
+      tl.from(headlineRef.current, {
+        duration: 1,
+        y: 50,
+        opacity: 0
+      })
+      .from(nameRef.current, {
+        duration: 1,
+        y: 30,
+        opacity: 0
+      }, "-=0.5")
+      .from(summaryRef.current, {
+        duration: 1,
+        y: 30,
+        opacity: 0
+      }, "-=0.7")
+      .from(ctaRef.current, {
+        duration: 0.8,
+        y: 20,
+        opacity: 0
+      }, "-=0.5")
 
     // Parallax effect
     const parallaxAnimation = gsap.to(".hero-background", {

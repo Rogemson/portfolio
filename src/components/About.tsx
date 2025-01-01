@@ -1,8 +1,12 @@
-'use client'
+'use client';
 
 import React, { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { Mail, Github, Linkedin, ArrowRight, Award, Code, Coffee } from 'lucide-react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const About = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -10,25 +14,35 @@ const About = () => {
 
   useEffect(() => {
     const section = sectionRef.current;
+
     if (section) {
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('fade-in');
-              entry.target.classList.remove('fade-out');
-            }
-          });
-        },
-        { threshold: 0.1 }
-      );
-
+      // Set up GSAP animations for each bento box
       bentoRefs.current.forEach((ref) => {
-        if (ref) observer.observe(ref);
+        if (ref) {
+          gsap.fromTo(
+            ref,
+            { y: 100, opacity: 0 },
+            {
+              y: 0,
+              opacity: 1,
+              duration: 1.2,
+              ease: 'power3.out',
+              scrollTrigger: {
+                trigger: ref,
+                start: 'top 80%',
+                end: 'top 50%',
+                scrub: true,
+                toggleActions: 'play none none reverse',
+              },
+            }
+          );
+        }
       });
-
-      return () => observer.disconnect();
     }
+
+    return () => {
+      ScrollTrigger.getAll().forEach((st) => st.kill());
+    };
   }, []);
 
   const addToRefs = (el: HTMLDivElement) => {

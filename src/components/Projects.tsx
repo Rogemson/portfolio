@@ -1,218 +1,211 @@
-"use client"
+'use client'
 
-import React, { useState } from 'react';
+import React, { useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Image from 'next/image';
-import { Users, BarChart3, Clock, Award, ArrowRight } from 'lucide-react';
+import { ExternalLink, Code, Timer, BarChart3 } from 'lucide-react';
 
-const ProjectsSection = () => {
-  const [activeCategory, setActiveCategory] = useState('all');
+const PortfolioSection = () => {
+  const sectionRef = useRef(null);
+  const headerRef = useRef(null);
+  const worksRef = useRef<(HTMLDivElement | null)[]>([]);
 
-  // Project data remains the same
-  const projects = [
+  const works = [
     {
       title: "Enterprise E-commerce Platform",
-      subtitle: "Full-stack Digital Transformation",
-      description: "Developed a scalable e-commerce solution for a retail client with 100K+ monthly users.",
-      image: "/api/placeholder/400/300",
-      category: "web",
-      metrics: [
-        { icon: Users, label: "Active Users", value: "100K+" },
-        { icon: BarChart3, label: "Sales Increase", value: "45%" },
-        { icon: Clock, label: "Load Time", value: "0.8s" }
-      ],
-      technologies: ["React", "Node.js", "MongoDB", "AWS"],
-      outcomes: [
-        "Increased conversion rate by 45%",
-        "Reduced page load time by 60%",
-        "Implemented real-time inventory management"
-      ],
-      duration: "6 months",
-      client: "Major Retail Brand",
-      featured: true,
-      testimonial: {
-        quote: "The platform transformed our digital presence and significantly boosted our online sales.",
-        author: "John Smith",
-        role: "Director of E-commerce"
+      type: "Full-stack Development",
+      description: "Built a scalable e-commerce platform handling 50,000+ monthly transactions. Implemented real-time inventory management, advanced analytics dashboard, and AI-powered product recommendations. Achieved 40% improvement in checkout conversion rate.",
+      image: "/images/pexels-mart-production-7667442.jpg",
+      tech: ["Next.js", "Node.js", "MongoDB", "Redis", "Docker", "AWS", "Stripe"],
+      link: "#",
+      metrics: {
+        duration: "6 months",
+        role: "Lead Developer",
+        impact: [
+          "99.9% uptime SLA maintained",
+          "3x faster page load times",
+          "$2M+ monthly GMV processed"
+        ]
       }
     },
     {
-      title: "Financial Analytics Dashboard",
-      subtitle: "Data Visualization & Analytics",
-      description: "Built a real-time analytics platform for financial data processing and visualization.",
-      image: "/api/placeholder/400/300",
-      category: "analytics",
-      metrics: [
-        { icon: Clock, label: "Processing Time", value: "-75%" },
-        { icon: Users, label: "Daily Users", value: "5K+" },
-        { icon: BarChart3, label: "Data Points", value: "1M+" }
-      ],
-      technologies: ["Next.js", "Python", "PostgreSQL", "Docker"],
-      outcomes: [
-        "Reduced data processing time by 75%",
-        "Automated report generation saving 20 hours/week",
-        "Integrated machine learning predictions"
-      ],
-      duration: "4 months",
-      client: "Financial Services Firm",
-      featured: true
+      title: "FinTech Analytics Suite",
+      type: "Data Visualization & Analytics",
+      description: "Developed a comprehensive financial analytics platform processing 1M+ daily transactions. Features include real-time market data integration, predictive modeling, and automated reporting. Reduced data processing time by 75%.",
+      image: "/images/pexels-artempodrez-5716032.jpg",
+      tech: ["React", "D3.js", "PostgreSQL", "Python", "TensorFlow", "WebSocket", "AWS"],
+      link: "#",
+      metrics: {
+        duration: "4 months",
+        role: "Frontend Developer",
+        impact: [
+          "85% reduction in analysis time",
+          "100+ custom visualizations",
+          "Used by 50+ financial analysts"
+        ]
+      }
     },
     {
       title: "Healthcare Management System",
-      subtitle: "Secure Patient Management",
-      description: "Developed a HIPAA-compliant healthcare management system for patient data.",
-      image: "/api/placeholder/400/300",
-      category: "healthcare",
-      metrics: [
-        { icon: Users, label: "Patients Managed", value: "50K+" },
-        { icon: Clock, label: "Time Saved", value: "30%" },
-        { icon: Award, label: "Compliance", value: "100%" }
-      ],
-      technologies: ["React", "Java", "PostgreSQL", "Azure"],
-      outcomes: [
-        "Achieved HIPAA compliance certification",
-        "Reduced administrative time by 30%",
-        "Implemented secure patient data management"
-      ],
-      duration: "8 months",
-      client: "Regional Healthcare Provider",
-      featured: false
+      type: "Enterprise Solution",
+      description: "Architected a HIPAA-compliant healthcare platform serving 200+ medical professionals. Implemented secure patient records management, appointment scheduling, and integrated billing system. Reduced administrative overhead by 60%.",
+      image: "/images/flat-design-medical-care-landing-page_23-2149177716.avif",
+      tech: ["React", "Java Spring", "Azure", "PostgreSQL", "OAuth2", "Kubernetes", "RabbitMQ"],
+      link: "#",
+      metrics: {
+        duration: "8 months",
+        role: "Full-stack Developer",
+        impact: [
+          "100K+ patient records managed",
+          "30% increase in staff efficiency",
+          "Zero security incidents"
+        ]
+      }
     }
   ];
 
-  const categories = [
-    { id: 'all', label: 'All Projects' },
-    { id: 'web', label: 'Web Applications' },
-    { id: 'analytics', label: 'Analytics' },
-    { id: 'healthcare', label: 'Healthcare' }
-  ];
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      gsap.registerPlugin(ScrollTrigger);
+    }
 
-  const filteredProjects = projects.filter(project => 
-    activeCategory === 'all' || project.category === activeCategory
-  );
+    const ctx = gsap.context(() => {
+      // Pin the header
+      gsap.to(headerRef.current, {
+        scrollTrigger: {
+          trigger: headerRef.current,
+          start: 'top top',
+          endTrigger: sectionRef.current,
+          end: 'bottom top',
+          pin: true,
+          pinSpacing: false
+        }
+      });
 
+      // Animate each work item
+      worksRef.current.forEach((work) => {
+        if (!work) return;
+
+        gsap.fromTo(
+          work,
+          { yPercent: 10 },
+          {
+            yPercent: 0,
+            scrollTrigger: {
+              trigger: work,
+              start: 'top 80%',
+              end: 'bottom 20%',
+              scrub: 1
+            }
+          }
+        );
+
+        // Parallax effect for the image
+        const image = work.querySelector('.work-image');
+        if (image) {
+          gsap.fromTo(
+            image,
+            { yPercent: 5 },
+            {
+              yPercent: -5,
+              scrollTrigger: {
+                trigger: work,
+                start: 'top bottom',
+                end: 'bottom top',
+                scrub: 1
+              }
+            }
+          );
+        }
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+  
   return (
-    <section id="projects" className="py-24 bg-gray-50">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-        <div className="max-w-3xl mx-auto text-center mb-16">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">
-            Featured Projects
+    <section ref={sectionRef} className="min-h-screen bg-white" id='projects'>
+      <div ref={headerRef} className="py-8 bg-white z-50">
+        <div className="max-w-6xl mx-auto px-4 md:px-8">
+          <h2 className="section-title text-4xl md:text-5xl font-bold text-gray-900">
+            Selected Works
           </h2>
-          <p className="text-lg text-gray-600">
-            Delivering impactful solutions across industries
-          </p>
         </div>
+      </div>
 
-        {/* Updated responsive categories */}
-        <div className="mb-16 px-4 sm:px-0">
-          <div className="flex flex-wrap justify-center gap-2 sm:gap-4">
-            {categories.map((category) => (
-              <button
-                key={category.id}
-                onClick={() => setActiveCategory(category.id)}
-                className={`px-4 sm:px-6 py-2 sm:py-2.5 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap
-                  ${
-                    activeCategory === category.id
-                      ? 'bg-gray-900 text-gray-50 shadow-md'
-                      : 'bg-white text-gray-600 hover:bg-gray-100 hover:text-gray-900'
-                  }
-                  flex-grow sm:flex-grow-0 basis-[calc(50%-0.5rem)] sm:basis-auto
-                `}
-              >
-                {category.label}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {filteredProjects.map((project, index) => (
+      <div className="max-w-6xl mx-auto px-4 md:px-8">
+        <div className="-space-y-2">
+          {works.map((work, index) => (
             <div
               key={index}
-              className={`bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-300
-                ${project.featured && filteredProjects.length > 2 ? 'lg:col-span-2' : ''}`}
+              ref={(el) => { worksRef.current[index] = el; }}
+              className="min-h-screen flex items-center"
             >
-              <div className="grid grid-cols-1 lg:grid-cols-2">
-                <div className="relative h-64 lg:h-full">
+              <div
+                className={`grid md:grid-cols-2 gap-8 md:gap-12 items-center ${
+                  index % 2 === 0 ? '' : 'md:grid-flow-dense'
+                }`}
+              >
+                <div className="work-image relative h-64 md:h-96 rounded-lg overflow-hidden">
                   <Image
-                    src="/api/placeholder/600/400"
-                    alt={project.title}
+                    src={work.image}
+                    alt={work.title}
                     layout="fill"
-                    objectFit="cover"
+                    objectFit="cover" // `objectFit` is not available, so now use style for object-fit
+                    style={{ objectFit: 'cover' }}
+                    className="transition-transform duration-700"
+                    loading="lazy" // Lazy load image
                   />
-                  {project.featured && (
-                    <div className="absolute top-4 right-4 bg-gray-900 text-gray-50 px-4 py-1 rounded-full text-sm font-medium">
-                      Featured Project
-                    </div>
-                  )}
                 </div>
-                
-                <div className="p-8">
-                  <div className="mb-6">
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">
-                      {project.title}
+
+                <div className="work-content space-y-6">
+                  <div>
+                    <p className="text-indigo-600 font-medium mb-2">{work.type}</p>
+                    <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
+                      {work.title}
                     </h3>
-                    <p className="text-sm font-medium text-gray-500 mb-3">
-                      {project.subtitle}
-                    </p>
-                    <p className="text-gray-600">
-                      {project.description}
-                    </p>
+                    <p className="text-gray-600 leading-relaxed">{work.description}</p>
                   </div>
 
-                  <div className="grid grid-cols-3 gap-4 mb-6">
-                    {project.metrics.map((metric, idx) => (
-                      <div key={idx} className="text-center">
-                        <metric.icon className="w-5 h-5 mx-auto mb-1 text-gray-900" />
-                        <div className="text-lg font-bold text-gray-900">{metric.value}</div>
-                        <div className="text-xs text-gray-500">{metric.label}</div>
-                      </div>
+                  <div className="flex flex-wrap gap-2">
+                    {work.tech.map((tech, idx) => (
+                      <span
+                        key={idx}
+                        className="tech-tag px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm font-medium"
+                      >
+                        {tech}
+                      </span>
                     ))}
                   </div>
 
-                  <div className="mb-6">
-                    <div className="text-sm font-medium text-gray-500 mb-2">Technologies</div>
-                    <div className="flex flex-wrap gap-2">
-                      {project.technologies.map((tech, techIndex) => (
-                        <span
-                          key={techIndex}
-                          className="px-3 py-1 bg-gray-100 text-gray-900 rounded-full text-sm font-medium"
-                        >
-                          {tech}
-                        </span>
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-6 text-sm text-gray-500">
+                      <div className="metric-item flex items-center gap-2">
+                        <Timer size={16} />
+                        <span>{work.metrics.duration}</span>
+                      </div>
+                      <div className="metric-item flex items-center gap-2">
+                        <Code size={16} />
+                        <span>{work.metrics.role}</span>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      {work.metrics.impact.map((impact, idx) => (
+                        <div key={idx} className="metric-item flex items-center gap-2 text-sm text-gray-600">
+                          <BarChart3 size={16} className="text-indigo-600" />
+                          <span>{impact}</span>
+                        </div>
                       ))}
                     </div>
                   </div>
 
-                  <div className="mb-6">
-                    <div className="text-sm font-medium text-gray-500 mb-2">Key Outcomes</div>
-                    <ul className="space-y-2">
-                      {project.outcomes.map((outcome, idx) => (
-                        <li key={idx} className="flex items-start">
-                          <ArrowRight className="w-4 h-4 text-gray-900 mt-1 mr-2 flex-shrink-0" />
-                          <span className="text-gray-600 text-sm">{outcome}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {project.testimonial && (
-                    <blockquote className="border-l-4 border-gray-900 pl-4 mb-6">
-                      <p className="text-sm text-gray-600 italic mb-2">{project.testimonial.quote}</p>
-                      <footer className="text-sm">
-                        <strong className="text-gray-900">{project.testimonial.author}</strong>
-                        <span className="text-gray-500"> — {project.testimonial.role}</span>
-                      </footer>
-                    </blockquote>
-                  )}
-
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-500">
-                      <strong className="text-gray-900">Duration:</strong> {project.duration}
-                    </span>
-                    <span className="text-gray-500">
-                      <strong className="text-gray-900">Client:</strong> {project.client}
-                    </span>
-                  </div>
+                  <a
+                    href={work.link}
+                    className="inline-flex items-center gap-2 text-indigo-600 font-medium hover:text-indigo-700 transition-colors"
+                  >
+                    View Project <ExternalLink size={16} />
+                  </a>
                 </div>
               </div>
             </div>
@@ -223,4 +216,4 @@ const ProjectsSection = () => {
   );
 };
 
-export default ProjectsSection;
+export default PortfolioSection;
